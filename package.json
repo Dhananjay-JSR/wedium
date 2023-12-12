@@ -4,13 +4,16 @@
   "main": "index.js",
   "license": "MIT",
   "private": true,
+  "author": {
+    "name": "Dhananjay Senday"
+  },
   "scripts": {
-    "dev:client": "cd client && npm run dev",
-    "dev:server": "cd server && npm run dev",
+    "dev:client": "yarn workspace client dev",
+    "dev:server": "yarn workspace server dev",
     "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
-    "build:client": "cd client && npm run build",
-    "build:server": "cd server && npm run build",
-    "serve": "cd server && npm run serve"
+    "preserve": "concurrently \" yarn workspace client build\" \"yarn workspace server build\"",
+    "serve": "yarn workspace server serve",
+    "serve:client": "cd client && npm run preview"
   },
   "workspaces": [
     "server",
