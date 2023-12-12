@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Rive, { useRive, useStateMachineInput } from "@rive-app/react-canvas";
+import React from "react";
 function Header() {
   return (
     <nav className=" py-2  border-b px-3 md:px-0 ">
@@ -30,11 +32,50 @@ function Header() {
   );
 }
 
-function App() {
-  const [count, setCount] = useState(0);
+export const UrlDemo = ({ isActive }: { isActive: boolean }) => {
+  const STATE_MACHINE = "State Machine ";
+  const SWITCh = "Trigger 1";
+  const { rive, RiveComponent } = useRive({
+    src: "rocket_launch_refresh.riv",
+    autoplay: true,
+    animations: "All",
+    stateMachines: STATE_MACHINE,
+  });
+
+  const STATE = useStateMachineInput(rive, STATE_MACHINE, SWITCh);
+  React.useEffect(() => {
+    if (isActive == true) {
+      if (rive && STATE) {
+        STATE?.fire();
+      }
+    }
+  }, [isActive]);
 
   return (
     <>
+      <RiveComponent />
+    </>
+  );
+};
+
+function App() {
+  const [isCalled, setIsCalled] = useState(false);
+  const [showAnimation, setShowAnimation] = useState(false);
+  useEffect(() => {
+    if (showAnimation) {
+      setTimeout(() => {
+        setIsCalled(true);
+      }, 1000);
+      //this will fe Fetch
+    }
+  }, [showAnimation]);
+  return (
+    <>
+      {showAnimation && (
+        <div className="RiveContainer z-10">
+          <UrlDemo isActive={isCalled} />
+        </div>
+      )}
       <main className=" md:mx-auto min-h-screen flex flex-col ">
         <Header />
         <section className="max-w-5xl mx-auto flex-grow">
@@ -45,13 +86,23 @@ function App() {
               Say Goodbye to Paywalls with Our Open Access Platform
             </span>
           </div>
-          <div className="w-fit">
-            <input
-              type="text"
-              placeholder="Enter URL Here"
-              className=" min-w-[700px] peer shadow-md focus:shadow-none py-1 text-[#1e293b] focus:border-transparent before:content-['hello'] border mt-6 text-xl px-2 rounded-sm outline-none "
-            />
-            <div className="w-0 h-1 bg-[#1e293b] peer-focus:w-full transition-all"></div>
+          <div className="flex items-center mt-6 gap-3">
+            <div className="w-fit relative z-20">
+              <input
+                type="text"
+                placeholder="Enter URL Here"
+                className=" min-w-[700px] peer shadow-md focus:shadow-none py-1 text-[#1e293b] focus:border-transparent before:content-['hello'] border  text-xl px-2 rounded-sm outline-none "
+              />
+              <div className="w-0 h-1 bg-[#1e293b] peer-focus:w-full transition-all"></div>
+            </div>
+            <button
+              onClick={() => {
+                setShowAnimation(true);
+              }}
+              className="bg-[#1e293b] hover:scale-105 active:scale-95 hover:bg-[#1e293b]/40 hover:text-[#1e293b]  transition-all  h-full text-white font-mono font-medium  px-2 py-1"
+            >
+              Let's Start
+            </button>
           </div>
         </section>
 
