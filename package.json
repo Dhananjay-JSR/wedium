@@ -5,10 +5,18 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev:client": "cd client && npm run dev"
+    "dev:client": "cd client && npm run dev",
+    "dev:server": "cd server && npm run dev",
+    "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
+    "build:client": "cd client && npm run build",
+    "build:server": "cd server && npm run build",
+    "serve": "cd server && npm run serve"
   },
   "workspaces": [
-"server",
-"client"
-  ]
+    "server",
+    "client"
+  ],
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
 }
