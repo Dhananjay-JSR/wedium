@@ -19,7 +19,7 @@ function HTMLFetch(url:string){
       'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7', 
       'accept-language': 'en-US,en;q=0.9', 
       'cache-control': 'no-cache', 
-      'cookie': '_dd_s=rum=0&expire=1702394423236', 
+      // 'cookie': '_dd_s=rum=0&expire=1702394423236', 
       'pragma': 'no-cache', 
       'sec-ch-ua': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"', 
       'sec-ch-ua-arch': '"x86"', 
@@ -45,8 +45,10 @@ function HTMLFetch(url:string){
 function HTML_Cleaner(BODY:string){
   const $ = cheerio.load(BODY);
   $('script').empty()
+  $('link').empty()
   $($('#' + $("body").children().first().attr('id')).remove());
-    return $.html()
+  $('script[src]').remove();
+    return $.html() as string
 
 }
 
@@ -62,7 +64,9 @@ app.get("/api",async(req,res)=>{
   const {url}  = req.query
   if (url){
     try{
-      res.send(HTML_Cleaner((await HTMLFetch(url as string)).data))
+      res.send(HTML_Cleaner((await HTMLFetch(url as string)).data)
+      // .replace(/cdn-client.medium.com/g,"sa")
+      )
     }
     catch (error){
       const err = error as AxiosError

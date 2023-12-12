@@ -48,8 +48,8 @@ function App() {
               Say Goodbye to Paywalls with Our Open Access Platform
             </span>
           </div>
-          <div className="flex items-center mt-6 gap-3">
-            <div className="w-fit relative z-20">
+          <div className="flex  flex-col md:flex-row items-center mt-6 gap-3">
+            <div className="md:w-fit relative z-20 w-full  px-4 md:px-0">
               <input
               value={URL}
               onChange={(e)=>{
@@ -58,7 +58,7 @@ function App() {
               }}
                 type="text"
                 placeholder="Enter URL Here"
-                className="min-w-[700px] peer shadow-md focus:shadow-none py-1 text-[#1e293b] focus:border-transparent before:content-['hello'] border  text-xl px-2 rounded-sm outline-none "
+                className="md:min-w-[700px] w-full  peer shadow-md focus:shadow-none py-1 text-[#1e293b] focus:border-transparent before:content-['hello'] border  text-xl px-2 rounded-sm outline-none "
               />
               <div className="w-0 h-1 peer-focus:peer-invalid:bg-red-600 bg-[#1e293b] peer-focus:w-full transition-all"></div>
             </div>
@@ -66,7 +66,11 @@ function App() {
             
               onClick={async() => {
                 setShowAnimation(true);
-               const Data = await axios.get("/api?url="+URL)
+                const ENV = process.env.NODE_ENV
+                
+               const Data = await axios.get(ENV!="development"?
+               
+               "/api?url="+URL:"http://localhost:3000/api?url="+URL )
               //  Save Congtent
               dispatch({
                 type:ActionType.ADD,

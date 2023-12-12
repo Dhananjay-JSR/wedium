@@ -1,6 +1,8 @@
 import { useContext } from "react"
 import { ReContext } from "./utils/Context"
 import { useNavigate } from "react-router-dom"
+import DOMPurify from 'dompurify'
+
 import React from "react"
 
 export default function Viewer(){
@@ -13,6 +15,6 @@ export default function Viewer(){
    },[state])
    if (state.data)
     return <main dangerouslySetInnerHTML={{
-        __html:state.data
+        __html:DOMPurify.sanitize(state.data)
     }}></main>
 }
