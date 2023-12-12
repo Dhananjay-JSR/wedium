@@ -7,6 +7,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Viewer from './Viewer.tsx';
+import StoreProvider from './utils/Provider.tsx';
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,8 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     {/* <App /> */}
+   <StoreProvider>
     <RouterProvider router={router} />
+   </StoreProvider>
   </React.StrictMode>,
 )

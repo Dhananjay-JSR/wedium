@@ -1,27 +1,28 @@
-import { useEffect, useState } from "react";
-import Rive from "@rive-app/react-canvas";
-import React from "react";
-import { useNavigate, useRoutes } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { UrlDemo } from "./components/UrlDemo";
+import axios from 'axios'
+import { ActionType, ReContext } from "./utils/Context";
 function App() {
-  const urlPattern = /(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?/g;
+  // const urlPattern = /(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?/g;
 
-
+  const {dispatch} = useContext(ReContext)
   const [isCalled, setIsCalled] = useState(false);
   const [showAnimation, setShowAnimation] = useState(false);
   const [URL,setURL] = useState('')
   const navigate = useNavigate();
-  useEffect(() => {
-    if (showAnimation) {
-      setTimeout(() => {
-        setIsCalled(true);
-        //Fired Rocket
-      }, 1000);
-      //this will fe Fetch
-    }
-  }, [showAnimation]);
+  // useEffect(() => {
+  //   if (showAnimation) {
+      
+  //     // setTimeout(() => {
+  //     //   setIsCalled(true);
+  //     //   //Fired Rocket
+  //     // }, 1000);
+  //     //this will fe Fetch
+  //   }
+  // }, [showAnimation]);
 
   useEffect(() => {
     if (isCalled) {
@@ -62,9 +63,20 @@ function App() {
               <div className="w-0 h-1 peer-focus:peer-invalid:bg-red-600 bg-[#1e293b] peer-focus:w-full transition-all"></div>
             </div>
             <button
-            disabled={new RegExp(urlPattern).test(URL)}
-              onClick={() => {
+            
+              onClick={async() => {
                 setShowAnimation(true);
+               const Data = await axios.get("http://localhost:3000/api?url="+URL)
+              //  Save Congtent
+              dispatch({
+                type:ActionType.ADD,
+                payload:Data.data
+              })
+
+               setIsCalled(true);
+               setTimeout(()=>{
+                navigate("/viewer")
+               },700)
               }}
               className="bg-[#1e293b] hover:scale-105 active:scale-95 hover:bg-[#1e293b]/40 hover:text-[#1e293b]  transition-all  h-full text-white font-mono font-medium  px-2 py-1"
             >

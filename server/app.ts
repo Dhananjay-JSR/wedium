@@ -1,10 +1,13 @@
 import express from "express"
 import process from "process"
+import cors from "cors"
 import axios, { AxiosError } from "axios"
 import cheerio from 'cheerio'
 import {PORT} from "./index"
 import path from "path"
 const app = express()
+
+
 
 function HTMLFetch(url:string){
   return axios.request({
@@ -46,6 +49,10 @@ function HTML_Cleaner(BODY:string){
     return $.html()
 
 }
+
+app.use(cors({
+  origin: '*',
+}))
 
 
 app.use(express.static(path.join(process.cwd(), "..", "client", "dist")));
