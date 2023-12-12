@@ -66,7 +66,7 @@ function App() {
             
               onClick={async() => {
                 setShowAnimation(true);
-               const Data = await axios.get("http://localhost:3000/api?url="+URL)
+               const Data = await axios.get("/api?url="+URL)
               //  Save Congtent
               dispatch({
                 type:ActionType.ADD,

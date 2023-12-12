@@ -57,6 +57,7 @@ app.use(cors({
 
 app.use(express.static(path.join(process.cwd(), "..", "client", "dist")));
 
+
 app.get("/api",async(req,res)=>{
   const {url}  = req.query
   if (url){
@@ -74,6 +75,7 @@ app.get("/api",async(req,res)=>{
   }
 })
 
+app.get('*', (req, res) => res.sendFile(path.join(process.cwd(), "..", "client", "dist","index.html")));
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`)
