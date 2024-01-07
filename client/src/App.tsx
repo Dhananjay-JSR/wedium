@@ -57,7 +57,7 @@ function App() {
                 setURL(()=>Value)
               }}
                 type="text"
-                placeholder="Enter URL Here"
+                placeholder="Enter Medium Based URL Here (medium.com , towardsdatascience.com)"
                 className="md:min-w-[700px] w-full  peer shadow-md focus:shadow-none py-1 text-[#1e293b] focus:border-transparent before:content-['hello'] border  text-xl px-2 rounded-sm outline-none "
               />
               <div className="w-0 h-1 peer-focus:peer-invalid:bg-red-600 bg-[#1e293b] peer-focus:w-full transition-all"></div>
