@@ -13,4 +13,8 @@ COPY . .
 
 RUN yarn
 
+RUN yarn workspace client build
+
+RUN yarn workspace server build
+
 ENTRYPOINT [ "yarn","serve" ]

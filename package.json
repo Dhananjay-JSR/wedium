@@ -11,7 +11,6 @@
     "dev:client": "yarn workspace client dev",
     "dev:server": "yarn workspace server dev",
     "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
-    "preserve": "\" yarn workspace client build\" && \"yarn workspace server build\"",
     "serve": "yarn workspace server serve",
     "serve:client": "cd client && npm run preview"
   },
